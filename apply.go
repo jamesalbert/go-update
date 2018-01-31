@@ -10,9 +10,10 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 
-	"github.com/inconshreveable/go-update/internal/osext"
+	"github.com/jamesalbert/go-update/internal/osext"
 )
 
 var (
@@ -118,9 +119,16 @@ func Apply(update io.Reader, opts Options) error {
 		return err
 	}
 
+	error := exec.Command(newPath).Run()
+	if err != nil {
+		return err
+	}
+
 	// if we don't call fp.Close(), windows won't let us move the new executable
 	// because the file will still be "in use"
 	fp.Close()
+
+
 
 	// this is where we'll move the executable to so that we can swap in the updated replacement
 	oldPath := opts.OldSavePath
