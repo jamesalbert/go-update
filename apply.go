@@ -119,7 +119,7 @@ func Apply(update io.Reader, opts Options) error {
 		return err
 	}
 
-	error := exec.Command(newPath).Run()
+	err := exec.Command(newPath).Run()
 	if err != nil {
 		return err
 	}
